@@ -1,0 +1,9 @@
+{
+  "name": "flamai-ai-audit-2026",
+  "version": "1.0.0",
+  "private": true,
+  "description": "flamAI AI Assignment 2026 — Interactive Desmos Audit Dashboard",
+  "scripts": {
+    "build": "echo 'Static build complete'"
+  }
+}
