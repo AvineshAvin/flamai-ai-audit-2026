@@ -1,0 +1,80 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "1. Run Bug Isolation Experiment (Part A2)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/your-submission/partA/scripts/audit_bugs.py",
+      "args": [
+        "--eng",
+        "${workspaceFolder}/starter_kit/corpus_sample/eng_sample.txt",
+        "--hin",
+        "${workspaceFolder}/starter_kit/corpus_sample/hin_sample.txt"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "2. Run Corrected Fertility (GPT-2)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/your-submission/partA/scripts/fertility_fixed.py",
+      "args": [
+        "--corpus",
+        "eng=${workspaceFolder}/your-submission/partA/corpus/eng.txt",
+        "--corpus",
+        "hin=${workspaceFolder}/your-submission/partA/corpus/hin.txt",
+        "--corpus",
+        "kan=${workspaceFolder}/your-submission/partA/corpus/kan.txt",
+        "--corpus",
+        "tam=${workspaceFolder}/your-submission/partA/corpus/tam.txt",
+        "--tokenizer",
+        "gpt2",
+        "--compare-buggy"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "3. Run Corrected Fertility (Google MuRIL Indic-Aware)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/your-submission/partA/scripts/fertility_fixed.py",
+      "args": [
+        "--corpus",
+        "eng=${workspaceFolder}/your-submission/partA/corpus/eng.txt",
+        "--corpus",
+        "hin=${workspaceFolder}/your-submission/partA/corpus/hin.txt",
+        "--corpus",
+        "kan=${workspaceFolder}/your-submission/partA/corpus/kan.txt",
+        "--corpus",
+        "tam=${workspaceFolder}/your-submission/partA/corpus/tam.txt",
+        "--tokenizer",
+        "hf:google/muril-base-cased"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "4. Re-build Multilingual Corpus (Wikipedia)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/your-submission/partA/scripts/build_corpus.py",
+      "args": [
+        "--output",
+        "${workspaceFolder}/your-submission/partA/corpus"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "console": "integratedTerminal"
+    }
+  ]
+}
