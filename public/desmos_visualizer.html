@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flamAI Audit — Desmos Interactive Serving & Capacity Visualizer</title>
+  <!-- Load Desmos API -->
+  <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: #0f172a; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; }
+    header { background: #1e293b; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+    h1 { font-size: 1.25rem; font-weight: 600; color: #38bdf8; }
+    .tabs { display: flex; gap: 8px; }
+    .tab-btn { background: #334155; color: #cbd5e1; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .tab-btn:hover { background: #475569; color: #fff; }
+    .tab-btn.active { background: #0284c7; color: #fff; font-weight: 600; }
+    #main-container { display: flex; flex: 1; overflow: hidden; }
+    #calculator { flex: 1; height: 100%; }
+    #sidebar { width: 360px; background: #1e293b; border-left: 1px solid #334155; padding: 20px; overflow-y: auto; font-size: 0.9rem; line-height: 1.6; }
+    h2 { font-size: 1.1rem; color: #38bdf8; margin-bottom: 12px; }
+    h3 { font-size: 0.95rem; color: #94a3b8; margin: 14px 0 6px; }
+    .formula-box { background: #0f172a; border: 1px solid #334155; padding: 10px 12px; border-radius: 6px; font-family: monospace; color: #facc15; margin-bottom: 10px; font-size: 0.85rem; }
+    .stat-badge { display: inline-block; background: #0369a1; color: #e0f2fe; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 4px; }
+    .badge-warn { background: #b91c1c; color: #fee2e2; }
+    .badge-success { background: #15803d; color: #dcfce7; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>flamAI Capacity & Tokenizer Audit — Desmos Visualizer</h1>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="loadGraph('capacity')">Part B1/B2: KV-Cache & Preemption</button>
+      <button class="tab-btn" onclick="loadGraph('throughput')">Part B2/B3: Throughput vs Batch</button>
+      <button class="tab-btn" onclick="loadGraph('fertility')">Part A3: Tokenizer Fertility</button>
+    </div>
+  </header>
+
+  <div id="main-container">
+    <div id="calculator"></div>
+    <div id="sidebar">
+      <div id="sidebar-content">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var elt = document.getElementById('calculator');
+    var calculator = Desmos.GraphingCalculator(elt, {
+      keypad: true,
+      expressions: true,
+      settingsMenu: true,
+      zoomButtons: true,
+      border: false
+    });
+
+    var views = {
+      capacity: {
+        title: "Part B1 & B2: KV-Cache Capacity & Preemption Limit",
+        description: `
+          <p>This graph models the VRAM memory footprint as a function of concurrent sequence batch size $x$ for 4096-token requests.</p>
+          <h3>Mathematical Derivation:</h3>
+          <div class="formula-box">
+            KV_bytes/tok = 2 × 28 × 8 × 128 × 2 = 112 KB<br>
+            KV_per_seq(4096 tok) = 0.469768 GB<br>
+            Memory(x) = 8.4 (Weights) + 1.6 (Overhead) + 0.469768 × x
+          </div>
+          <h3>Key Thresholds:</h3>
+          <p><span class="stat-badge">Limit</span> <b>y = 22.08 GB</b> (0.92 × 24GB L4 VRAM)</p>
+          <p><span class="stat-badge badge-success">Max Safe Batch</span> <b>x = 25.7 ≈ 27–28 sequences</b></p>
+          <p><span class="stat-badge badge-warn">Preemption Trigger</span> <b>x ≥ 32</b> causes KV exhaustion & throughput drop.</p>
+        `,
+        setup: function() {
+          calculator.setBlank();
+          calculator.setMathBounds({ left: 0, right: 55, bottom: 0, top: 35 });
+          
+          // Total memory function
+          calculator.setExpression({ id: 'mem', latex: 'M(x) = 8.4 + 1.6 + 0.469768x', color: '#38bdf8', lineStyle: Desmos.Styles.SOLID });
+          // Available VRAM ceiling
+          calculator.setExpression({ id: 'ceil', latex: 'y = 22.08', color: '#ef4444', lineStyle: Desmos.Styles.DASHED });
+          // Total VRAM 24GB
+          calculator.setExpression({ id: 'vram', latex: 'y = 24', color: '#64748b', lineStyle: Desmos.Styles.DOTTED });
+          // Safe concurrency boundary
+          calculator.setExpression({ id: 'safe_bound', latex: 'x = 25.7', color: '#22c55e', lineStyle: Desmos.Styles.DASHED });
+          
+          // Actual benchmark points from bench_log.csv
+          // (batch, Total GB used = 10 + kv_util * 12.08)
+          calculator.setExpression({
+            id: 'points',
+            latex: 'P = [(4, 11.93), (8, 13.74), (16, 17.48), (24, 21.23), (32, 21.71), (48, 21.71)]',
+            color: '#facc15',
+            pointSize: 9
+          });
+          calculator.setExpression({ id: 'label_p24', latex: '(24, 21.23)', label: 'Batch 24 (93% util, Peak)', showLabel: true });
+          calculator.setExpression({ id: 'label_p32', latex: '(32, 21.71)', label: 'Batch 32 (97% util, 7 Preempts!)', showLabel: true });
+        }
+      },
+
+      throughput: {
+        title: "Part B2 & B3: Throughput vs Batch Size Anomaly",
+        description: `
+          <p>Shows reported throughput vs concurrent batch size for short prompts (512+256) vs long prompts (3584+512).</p>
+          <h3>Observations from bench_log.csv:</h3>
+          <p><span class="stat-badge badge-success">Short Prompt (Blue)</span> Scales smoothly up to 2267 tok/s at batch 64.</p>
+          <p><span class="stat-badge badge-warn">Long Prompt (Red)</span> Peaks at batch 24 (1607 tok/s) and <b>collapses</b> at batch 32 & 48 due to preemption thrashing.</p>
+          <h3>Honest Decode Goodput:</h3>
+          <div class="formula-box">
+            Goodput_batch24 = (24 × 512) / 61.16s = 200.9 tok/s
+          </div>
+        `,
+        setup: function() {
+          calculator.setBlank();
+          calculator.setMathBounds({ left: 0, right: 70, bottom: 0, top: 2500 });
+
+          // Short prompt points (512 prompt, 256 gen)
+          calculator.setExpression({
+            id: 'pts_short',
+            latex: 'S = [(1, 70.2), (2, 132.3), (4, 261.0), (8, 495.4), (16, 883.2), (32, 1489.6), (64, 2267.3)]',
+            color: '#38bdf8',
+            pointSize: 8,
+            lines: true
+          });
+
+          // Long prompt points (3584 prompt, 512 gen)
+          calculator.setExpression({
+            id: 'pts_long',
+            latex: 'L = [(4, 565.4), (8, 902.6), (16, 1311.4), (24, 1607.4), (32, 1384.0), (48, 1298.5)]',
+            color: '#ef4444',
+            pointSize: 9,
+            lines: true
+          });
+
+          calculator.setExpression({ id: 'lbl_peak', latex: '(24, 1607.4)', label: 'Peak: Batch 24 (1607 tok/s)', showLabel: true });
+          calculator.setExpression({ id: 'lbl_drop', latex: '(48, 1298.5)', label: 'Preemption Drop: Batch 48 (1298 tok/s)', showLabel: true });
+
+          // Theoretical linear extrapolation claimed by report v0
+          calculator.setExpression({ id: 'linear_myth', latex: 'y = 66.97x', color: '#a855f7', lineStyle: Desmos.Styles.DOTTED });
+          calculator.setExpression({ id: 'lbl_myth', latex: '(48, 3214)', label: 'Report v0 False Prediction (3200 tok/s)', showLabel: true });
+        }
+      },
+
+      fertility: {
+        title: "Part A3: Tokenizer Fertility (GPT-2 vs MuRIL)",
+        description: `
+          <p>Compares tokens per sentence across 4 languages between English-centric GPT-2 and Indic-specialized MuRIL.</p>
+          <h3>Tokens per Sentence Comparison:</h3>
+          <div class="formula-box">
+            English:  GPT-2 = 26.8  |  MuRIL = 26.6 (1.0x)<br>
+            Hindi:    GPT-2 = 171.4 |  MuRIL = 23.7 (0.89x)<br>
+            Kannada:  GPT-2 = 281.1 |  MuRIL = 20.2 (0.76x)<br>
+            Tamil:    GPT-2 = 305.5 |  MuRIL = 19.8 (0.74x)
+          </div>
+          <p>Dravidian languages require ~300 tokens/sent on GPT-2 due to raw byte splitting (tok/byte ≈ 0.99), completely solved by MuRIL.</p>
+        `,
+        setup: function() {
+          calculator.setBlank();
+          calculator.setMathBounds({ left: 0, right: 5, bottom: 0, top: 350 });
+
+          // 1=English, 2=Hindi, 3=Kannada, 4=Tamil
+          // GPT-2 Tokens/Sentence
+          calculator.setExpression({
+            id: 'gpt2_bar',
+            latex: 'G = [(1, 26.8), (2, 171.4), (3, 281.1), (4, 305.5)]',
+            color: '#ef4444',
+            pointSize: 10
+          });
+
+          // MuRIL Tokens/Sentence
+          calculator.setExpression({
+            id: 'muril_bar',
+            latex: 'M = [(1, 26.6), (2, 23.7), (3, 20.2), (4, 19.8)]',
+            color: '#22c55e',
+            pointSize: 10
+          });
+
+          calculator.setExpression({ id: 'l1', latex: '(1, 26.8)', label: 'Eng (GPT-2: 26.8 | MuRIL: 26.6)', showLabel: true });
+          calculator.setExpression({ id: 'l2', latex: '(2, 171.4)', label: 'Hin (GPT-2: 171.4 | MuRIL: 23.7)', showLabel: true });
+          calculator.setExpression({ id: 'l3', latex: '(3, 281.1)', label: 'Kan (GPT-2: 281.1 | MuRIL: 20.2)', showLabel: true });
+          calculator.setExpression({ id: 'l4', latex: '(4, 305.5)', label: 'Tam (GPT-2: 305.5 | MuRIL: 19.8)', showLabel: true });
+        }
+      }
+    };
+
+    function loadGraph(key) {
+      document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+      event.target.classList.add('active');
+      document.getElementById('sidebar-content').innerHTML = `<h2>${views[key].title}</h2>${views[key].description}`;
+      views[key].setup();
+    }
+
+    // Initial load
+    loadGraph('capacity');
+  </script>
+</body>
+</html>
