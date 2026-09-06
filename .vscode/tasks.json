@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Open Interactive Desmos Visualizer in Browser",
+      "type": "shell",
+      "command": "Start-Process \"${workspaceFolder}/your-submission/desmos_visualizer.html\"",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "Start Local Web Server for Desmos Visualizer (Port 8000)",
+      "type": "shell",
+      "command": "python -m http.server 8000 --directory \"${workspaceFolder}/your-submission\"",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    }
+  ]
+}
