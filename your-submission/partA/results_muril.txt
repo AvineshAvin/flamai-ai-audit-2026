@@ -1,0 +1,35 @@
+﻿python : 
+C:\Users\avine\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_param_validation.py:11: 
+UserWarning: A NumPy version >=1.23.5 and <2.3.0 is required for this version of SciPy (detected version 2.5.2)
+At line:1 char:32
++ ... NG="utf-8"; python "your-submission/partA/scripts/fertility_fixed.py" ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\avine\... version 2.5.2):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  from scipy.sparse import csr_matrix, issparse
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits 
+and faster downloads.
+C:\Users\avine\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\file_download.py:142: 
+UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your 
+machine does not support them in C:\Users\avine\.cache\huggingface\hub\models--google--muril-base-cased. Caching files 
+will still work but in a degraded version that might require more space on your disk. This warning can be disabled by 
+setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see 
+https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In 
+order to activate developer mode, see this article: 
+https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+
+tokenizer : hf:google/muril-base-cased
+lang        tok/word   tok/graph    tok/byte    tok/sent
+--------------------------------------------------------
+eng            1.269       0.204       0.204        26.6
+hin            1.136       0.335       0.082        23.7
+kan            1.672       0.287       0.070        20.2
+tam            1.514       0.266       0.064        19.8
+
+Relative to eng (cross-language cost ratios):
+  hin: 0.89x per-word  |  0.89x per-sentence
+  kan: 1.32x per-word  |  0.76x per-sentence
+  tam: 1.19x per-word  |  0.74x per-sentence

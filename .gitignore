@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Caches
+.cache/
+.DS_Store
+__MACOSX/
+
+# Extracted scratch files
+pdf_content.txt
+pdf_content2.txt
+test_flores.txt

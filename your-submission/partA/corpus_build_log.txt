@@ -1,0 +1,86 @@
+﻿
+[*] Collecting eng sentences ...
+    Mahatma_Gandhi: 2 sentences
+    Bengaluru: 5 sentences
+    Indian_cuisine: 3 sentences
+    Cricket: 4 sentences
+    Solar_System: 3 sentences
+    Water: 7 sentences
+    Computer_science: 3 sentences
+    Human_rights: 3 sentences
+    Climate_change: 6 sentences
+    Mathematics: 3 sentences
+    India: 4 sentences
+    Yoga: 2 sentences
+  ΓåÆ 45 unique sentences written to your-submission\partA\corpus\eng.txt
+
+[*] Collecting hin sentences ...
+    αñ«αñ╣αñ╛αññαÑìαñ«αñ╛_αñùαñ╛αñéαñºαÑÇ: 10 sentences
+    αñ¼αÑçαñéαñùαñ▓αÑüαñ░αÑü: 5 sentences
+    αñ¡αñ╛αñ░αññαÑÇαñ»_αñ╡αÑìαñ»αñéαñ£αñ¿: 4 sentences
+    αñòαÑìαñ░αñ┐αñòαÑçαñƒ: 10 sentences
+    αñ╕αÑîαñ░_αñ«αñúαÑìαñíαñ▓: 4 sentences
+    αñ£αñ▓: 4 sentences
+    αñòαñ«αÑìαñ¬αÑìαñ»αÑéαñƒαñ░_αñ╡αñ┐αñ£αÑìαñ₧αñ╛αñ¿: 4 sentences
+    αñ«αñ╛αñ¿αñ╡_αñàαñºαñ┐αñòαñ╛αñ░: 5 sentences
+    αñ£αñ▓αñ╡αñ╛αñ»αÑü_αñ¬αñ░αñ┐αñ╡αñ░αÑìαññαñ¿: 4 sentences
+    [WARN] Failed hin/αñùαñúαñ┐αññ: HTTP Error 429: Too Many Requests
+    αñùαñúαñ┐αññ: 0 sentences
+    αñ¡αñ╛αñ░αññ: 6 sentences
+    αñ»αÑïαñù: 4 sentences
+  ΓåÆ 60 unique sentences written to your-submission\partA\corpus\hin.txt
+
+[*] Collecting kan sentences ...
+    α▓«α▓╣α▓╛α▓ñα│ìα▓«_α▓ùα▓╛α▓éα▓ºα▓┐: 2 sentences
+    α▓¼α│åα▓éα▓ùα▓│α│éα▓░α│ü: 1 sentences
+    [WARN] Failed kan/α▓¡α▓╛α▓░α▓ñα│Çα▓»_α▓¬α▓╛α▓òα▓¬α▓ªα│ìα▓ºα▓ñα▓┐: HTTP Error 404: Not Found
+    α▓¡α▓╛α▓░α▓ñα│Çα▓»_α▓¬α▓╛α▓òα▓¬α▓ªα│ìα▓ºα▓ñα▓┐: 0 sentences
+    α▓òα│ìα▓░α▓┐α▓òα│åα▓ƒα│ì: 5 sentences
+    α▓╕α│îα▓░α▓╡α│ìα▓»α│éα▓╣: 5 sentences
+    α▓¿α│Çα▓░α│ü: 7 sentences
+    α▓òα▓éα▓¬α│ìα▓»α│éα▓ƒα▓░α│ì_α▓╡α▓┐α▓£α│ìα▓₧α▓╛α▓¿: 7 sentences
+    α▓«α▓╛α▓¿α▓╡_α▓╣α▓òα│ìα▓òα│üα▓ùα▓│α│ü: 2 sentences
+    [WARN] Failed kan/α▓╣α▓╡α▓╛α▓«α▓╛α▓¿_α▓¼α▓ªα▓▓α▓╛α▓╡α▓úα│å: HTTP Error 429: Too Many Requests
+    α▓╣α▓╡α▓╛α▓«α▓╛α▓¿_α▓¼α▓ªα▓▓α▓╛α▓╡α▓úα│å: 0 sentences
+    α▓ùα▓úα▓┐α▓ñ: 5 sentences
+    [WARN] Failed kan/α▓¡α▓╛α▓░α▓ñ: HTTP Error 429: Too Many Requests
+    α▓¡α▓╛α▓░α▓ñ: 0 sentences
+    [WARN] Failed kan/α▓»α│ïα▓ù: HTTP Error 429: Too Many Requests
+    α▓»α│ïα▓ù: 0 sentences
+  ΓåÆ 34 unique sentences written to your-submission\partA\corpus\kan.txt
+
+[*] Collecting tam sentences ...
+    [WARN] Failed tam/α««α«òα«╛α«ñα»ìα««α«╛_α«òα«╛α«¿α»ìα«ñα«┐: HTTP Error 429: Too Many Requests
+    α««α«òα«╛α«ñα»ìα««α«╛_α«òα«╛α«¿α»ìα«ñα«┐: 0 sentences
+    [WARN] Failed tam/α«¬α»åα«Öα»ìα«òα«│α»éα«░α»ü: HTTP Error 429: Too Many Requests
+    α«¬α»åα«Öα»ìα«òα«│α»éα«░α»ü: 0 sentences
+    [WARN] Failed tam/α«çα«¿α»ìα«ñα«┐α«»_α«ëα«úα«╡α»ü: HTTP Error 429: Too Many Requests
+    α«çα«¿α»ìα«ñα«┐α«»_α«ëα«úα«╡α»ü: 0 sentences
+    [WARN] Failed tam/α«òα«┐α«░α«┐α«òα»ìα«òα»åα«ƒα»ì: HTTP Error 429: Too Many Requests
+    α«òα«┐α«░α«┐α«òα»ìα«òα»åα«ƒα»ì: 0 sentences
+    [WARN] Failed tam/α«Üα»éα«░α«┐α«»_α«òα»üα«ƒα»üα««α»ìα«¬α««α»ì: HTTP Error 429: Too Many Requests
+    α«Üα»éα«░α«┐α«»_α«òα»üα«ƒα»üα««α»ìα«¬α««α»ì: 0 sentences
+    [WARN] Failed tam/α«¿α»Çα«░α»ì: HTTP Error 429: Too Many Requests
+    α«¿α»Çα«░α»ì: 0 sentences
+    α«òα«úα«┐α«⌐α«┐_α«àα«▒α«┐α«╡α«┐α«»α«▓α»ì: 3 sentences
+    α««α«⌐α«┐α«ñ_α«ëα«░α«┐α««α»êα«òα«│α»ì: 8 sentences
+    α«òα«╛α«▓α«¿α«┐α«▓α»ê_α««α«╛α«▒α»ìα«▒α««α»ì: 4 sentences
+    α«òα«úα«┐α«ñα««α»ì: 5 sentences
+    α«çα«¿α»ìα«ñα«┐α«»α«╛: 7 sentences
+    α«»α»ïα«òα«╛: 4 sentences
+  ΓåÆ 31 unique sentences written to your-submission\partA\corpus\tam.txt
+
+[Γ£ô] Corpus metadata saved to your-submission\partA\corpus\corpus_meta.json
+
+--- Corpus Caveats ---
+Source       : Wikipedia article summaries (REST API, CC-BY-SA)
+Languages    : English (eng), Hindi (hin), Kannada (kan), Tamil (tam)
+Domain       : Encyclopedic prose ΓÇö not conversational
+Parallel     : THEMATIC (same articles, not sentence-aligned)
+              NOTE: unlike FLORES-200, sentences are NOT 1:1 translations.
+              Per-sentence ratios must use tok/sent not cross-language alignment.
+Caveats      :
+  1. Not parallel: tok/sentence ratios are intra-language, not cross-language aligned.
+  2. Domain mismatch vs real assistant queries (formal encyclopedia vs casual chat).
+  3. Wikipedia summaries: 1-3 paragraphs; may underrepresent long complex sentences.
+  4. Sentence splitting heuristic: may produce fragments near headers or lists.

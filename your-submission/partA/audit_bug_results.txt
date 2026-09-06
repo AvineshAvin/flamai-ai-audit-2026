@@ -1,0 +1,63 @@
+﻿============================================================
+AUDIT EXPERIMENTS ΓÇö fertility.py bug isolation
+Tokenizer: gpt2 (tiktoken)
+============================================================
+
+=== BUG 1: split(' ') vs split() ΓÇö lang=eng ===
+  Lines with double-spaces (affected): 1
+    >'Please keep the books  in the cupboard.'  buggy_words=8  fixed_words=7
+  fertility (buggy split) : 1.2652
+  fertility (fixed split) : 1.2831
+  DELTA (fixed - buggy)  : +0.0179
+  Direction: buggy UNDER-estimates fertility (empty string phantom words inflate denominator)
+
+=== BUG 1: split(' ') vs split() ΓÇö lang=hin ===
+  Lines with double-spaces (affected): 1
+    >'αñòαñ┐αññαñ╛αñ¼αÑçαñé  αñàαñ▓αñ«αñ╛αñ░αÑÇ αñ«αÑçαñé αñ░αñûαÑÇ αñ╣αÑêαñéαÑñ'  buggy_words=6  fixed_words=5
+  fertility (buggy split) : 7.4485
+  fertility (fixed split) : 7.5985
+  DELTA (fixed - buggy)  : +0.1500
+  Direction: buggy UNDER-estimates fertility (empty string phantom words inflate denominator)
+
+=== BUG 2: .lower() distortion ΓÇö lang=eng ===
+  Lines where token count changes after .lower(): 3
+    >'The Quarterly Review meeting moved to Thursday.'  tokens_lower=9  tokens_orig=8  delta=+1
+    >'NASA and ISRO announced a joint mission update.'  tokens_lower=11  tokens_orig=10  delta=+1
+    >'The GPU cluster ran out of memory during the night job.'  tokens_lower=13  tokens_orig=12  delta=+1
+  fertility (with .lower()) : 1.2831
+  fertility (original text) : 1.2472
+  DELTA (orig - lower)     : -0.0359
+  Direction: lowercasing UNDER-estimates English fertility for mixed-case/acronym text
+
+=== BUG 2: .lower() distortion ΓÇö lang=hin ===
+  Lines where token count changes after .lower(): 0
+  fertility (with .lower()) : 7.5985
+  fertility (original text) : 7.5985
+  DELTA (orig - lower)     : +0.0000
+  Direction: lowercasing UNDER-estimates English fertility for mixed-case/acronym text
+
+=== BUG 3: mean(per-line fertility) vs total_tokens/total_words ΓÇö lang=eng ===
+  fertility (mean of ratios) : 1.2831  ΓåÉ REPORT value
+  fertility (corpus-level)   : 1.2692  ΓåÉ CORRECT
+  DELTA (correct - report)  : -0.0138
+  Direction: mean-of-ratios gives MORE weight to short sentences, biasing result
+
+=== BUG 3: mean(per-line fertility) vs total_tokens/total_words ΓÇö lang=hin ===
+  fertility (mean of ratios) : 7.5985  ΓåÉ REPORT value
+  fertility (corpus-level)   : 7.5246  ΓåÉ CORRECT
+  DELTA (correct - report)  : -0.0739
+  Direction: mean-of-ratios gives MORE weight to short sentences, biasing result
+
+=== HARMLESS: random.seed(1337) ===
+  random.seed(1337) is set at module level but 'random' is never called.
+  Token counts and fertilities are fully deterministic ΓÇö no sampling is done.
+  Effect on reported numbers: ZERO.
+  This looks suspicious (why seed randomness if not used?) but is safe.
+
+============================================================
+Summary of distortion directions:
+  Bug 1 (split): fertility is UNDER-estimated (phantom empty words)
+  Bug 2 (lower): English fertility slightly UNDER-estimated
+  Bug 3 (mean) : direction depends on sentence length distribution
+All three bugs compound ΓÇö the reported Hindi/English ratio is unreliable.
+============================================================

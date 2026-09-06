@@ -1,0 +1,86 @@
+{
+  "eng": {
+    "source": "Wikipedia REST API (article summaries)",
+    "articles": [
+      "Mahatma_Gandhi",
+      "Bengaluru",
+      "Indian_cuisine",
+      "Cricket",
+      "Solar_System",
+      "Water",
+      "Computer_science",
+      "Human_rights",
+      "Climate_change",
+      "Mathematics",
+      "India",
+      "Yoga"
+    ],
+    "raw_sentences": 45,
+    "unique_sentences": 45,
+    "final_sentences": 45,
+    "path": "your-submission\\partA\\corpus\\eng.txt"
+  },
+  "hin": {
+    "source": "Wikipedia REST API (article summaries)",
+    "articles": [
+      "महात्मा_गांधी",
+      "बेंगलुरु",
+      "भारतीय_व्यंजन",
+      "क्रिकेट",
+      "सौर_मण्डल",
+      "जल",
+      "कम्प्यूटर_विज्ञान",
+      "मानव_अधिकार",
+      "जलवायु_परिवर्तन",
+      "गणित",
+      "भारत",
+      "योग"
+    ],
+    "raw_sentences": 60,
+    "unique_sentences": 60,
+    "final_sentences": 60,
+    "path": "your-submission\\partA\\corpus\\hin.txt"
+  },
+  "kan": {
+    "source": "Wikipedia REST API (article summaries)",
+    "articles": [
+      "ಮಹಾತ್ಮ_ಗಾಂಧಿ",
+      "ಬೆಂಗಳೂರು",
+      "ಭಾರತೀಯ_ಪಾಕಪದ್ಧತಿ",
+      "ಕ್ರಿಕೆಟ್",
+      "ಸೌರವ್ಯೂಹ",
+      "ನೀರು",
+      "ಕಂಪ್ಯೂಟರ್_ವಿಜ್ಞಾನ",
+      "ಮಾನವ_ಹಕ್ಕುಗಳು",
+      "ಹವಾಮಾನ_ಬದಲಾವಣೆ",
+      "ಗಣಿತ",
+      "ಭಾರತ",
+      "ಯೋಗ"
+    ],
+    "raw_sentences": 34,
+    "unique_sentences": 34,
+    "final_sentences": 34,
+    "path": "your-submission\\partA\\corpus\\kan.txt"
+  },
+  "tam": {
+    "source": "Wikipedia REST API (article summaries)",
+    "articles": [
+      "மகாத்மா_காந்தி",
+      "பெங்களூரு",
+      "இந்திய_உணவு",
+      "கிரிக்கெட்",
+      "சூரிய_குடும்பம்",
+      "நீர்",
+      "கணினி_அறிவியல்",
+      "மனித_உரிமைகள்",
+      "காலநிலை_மாற்றம்",
+      "கணிதம்",
+      "இந்தியா",
+      "யோகா"
+    ],
+    "raw_sentences": 31,
+    "unique_sentences": 31,
+    "final_sentences": 31,
+    "path": "your-submission\\partA\\corpus\\tam.txt"
+  }
+}

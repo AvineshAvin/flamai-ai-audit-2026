@@ -1,0 +1,21 @@
+﻿
+tokenizer : gpt2
+lang        tok/word   tok/graph    tok/byte    tok/sent
+--------------------------------------------------------
+eng            1.280       0.206       0.206        26.8
+hin            8.201       2.420       0.593       171.4
+kan           23.255       3.999       0.980       281.1
+tam           23.380       4.108       0.994       305.5
+
+Relative to eng (cross-language cost ratios):
+  hin: 6.41x per-word  |  6.38x per-sentence
+  kan: 18.17x per-word  |  10.47x per-sentence
+  tam: 18.27x per-word  |  11.38x per-sentence
+
+--- BUGGY (original fertility.py) for comparison ---
+lang        tok/word (buggy)    tok/char (buggy)
+------------------------------------------------
+eng                    1.333               0.214   (fixed delta: -0.054)
+hin                    8.125               1.536   (fixed delta: +0.076)
+kan                   21.799               2.639   (fixed delta: +1.457)
+tam                   23.282               2.660   (fixed delta: +0.098)
